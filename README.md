@@ -29,25 +29,24 @@ zeebe.client.cloud.clientSecret=<OWN_VALUE>
 ```
 	
 
-### Clone the Repository
+## Clone the Repository
 
 ```bash
 git clone <your-repo-url>
 cd camunda-animal-picture-app
 ```
-
-###Build the Project
+### Build the Project
 ```
 ./mvnw clean package
 ```
-###Run the Application
+### Run the Application
 ```
 docker-compose up --build
 ```
-###Access the Application
+### Access the Application
 Open your web browser and go to http://localhost:8081/index.html.
 
-###Project Structure
+### Project Structure
 
 ```
 
@@ -87,17 +86,17 @@ camunda-animal-picture-app/
 └── README.md
 ```
 
-###Camunda BPMN Process
+### Camunda BPMN Process
 The BPMN file animal-picture-process.bpmn is located in the src/main/resources directory. It defines the process for fetching animal pictures based on the user's selection.
 
-###API Endpoints
+### API Endpoints
 
 - Start Process Instance ::: ``POST /api/pictures/start?animalType={animalType}``
 	- Starts a new process instance to fetch a picture of the specified animal type (cat, dog, or bear).
 - Get Picture URL ::: `` GET /api/pictures/{processInstanceKey}``
 	- Retrieves the URL of the picture associated with the given process instance key.
 	
-###Running the Application Locally
+### Running the Application Locally
 
 - Build the Project:
 	- ```./mvnw clean package ```
@@ -106,7 +105,7 @@ The BPMN file animal-picture-process.bpmn is located in the src/main/resources d
 - Access UI
 	- ``` Open your web browser and go to http://localhost:8081/index.html.```
 
-###Architectural Diagram
+### Architectural Diagram
 Below is a simple architectural diagram showing how the components interact:
 
 ```
@@ -122,7 +121,7 @@ Below is a simple architectural diagram showing how the components interact:
 
 ```
 	
-###Author
+### Author
 ```
 ---------------------
 Aditya Kumar
