@@ -1,0 +1,18 @@
+
+### `docker-compose.yml`
+version: '3.8'
+
+services:
+  camunda-app:
+    build: .
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_PROFILES_ACTIVE=default
+    networks:
+      - camunda-network
+
+networks:
+  camunda-network:
+    driver: bridge
+

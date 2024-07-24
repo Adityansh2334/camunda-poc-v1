@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camunda Animal Picture App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Camunda Animal Picture App</h1>
+        <div>
+            <label for="animalType">Select an animal:</label>
+            <select id="animalType">
+                <option value="cat">Cat</option>
+                <option value="dog">Dog</option>
+                <option value="bear">Bear</option>
+            </select>
+            <button onclick="fetchPicture()">Get Picture</button>
+        </div>
+        <div id="loading" class="hidden">Loading...</div>
+        <div id="pictureContainer" class="hidden">
+            <h2>Here is your picture:</h2>
+            <img id="picture" src="" alt="Animal Picture">
+        </div>
+        <div id="error" class="hidden">An error occurred. Please try again.</div>
+    </div>
+    <script>
+        async function fetchPicture() {
+            document.getElementById('loading').classList.remove('hidden');
+            document.getElementById('pictureContainer').classList.add('hidden');
+            document.getElementById('error').classList.add('hidden');
+
+            const animalType = document.getElementById('animalType').value;
+            try {
+                const response = await fetch(`/api/pictures/start?animalType=${animalType}`, {
+                    method: 'POST'
+                });
+                const processInstanceKey = await response.text();
+
+                // Simulate delay for job worker to fetch the picture
+                setTimeout(async () => {
+                    const pictureResponse = await fetch(`/api/pictures/${processInstanceKey}`);
+                    const pictureUrl = await pictureResponse.text();
+
+                    document.getElementById('picture').src = pictureUrl;
+                    document.getElementById('loading').classList.add('hidden');
+                    document.getElementById('pictureContainer').classList.remove('hidden');
+                }, 3000); // Adjust the delay as needed
+            } catch (error) {
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('error').classList.remove('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
