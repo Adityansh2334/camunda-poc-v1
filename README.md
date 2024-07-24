@@ -32,8 +32,8 @@ zeebe.client.cloud.clientSecret=<OWN_VALUE>
 ## Clone the Repository
 
 ```bash
-git clone <your-repo-url>
-cd camunda-animal-picture-app
+git clone https://github.com/Adityansh2334/camunda-poc-v1.git
+cd camunda-poc-v1
 ```
 ### Build the Project
 ```
