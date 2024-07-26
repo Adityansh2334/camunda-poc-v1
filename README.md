@@ -41,8 +41,8 @@ You can set these variables in your shell or add them to a ``.env`` file in the 
 ## Clone the Repository
 
 ```bash
-git clone <your-repo-url>
-cd camunda-animal-picture-app
+git clone https://github.com/Adityansh2334/camunda-poc-v1.git
+cd camunda-poc-v1
 ```
 ### Build the Project
 ```
