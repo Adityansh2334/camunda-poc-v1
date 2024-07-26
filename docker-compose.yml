@@ -1,5 +1,3 @@
-
-### `docker-compose.yml`
 version: '3.8'
 
 services:
@@ -9,10 +7,13 @@ services:
       - "8081:8081"
     environment:
       - SPRING_PROFILES_ACTIVE=default
+      - ZEEBE_CLIENT_CLOUD_REGION=${ZEEBE_CLIENT_CLOUD_REGION}
+      - ZEEBE_CLIENT_CLOUD_CLUSTER_ID=${ZEEBE_CLIENT_CLOUD_CLUSTER_ID}
+      - ZEEBE_CLIENT_CLOUD_CLIENT_ID=${ZEEBE_CLIENT_CLOUD_CLIENT_ID}
+      - ZEEBE_CLIENT_CLOUD_CLIENT_SECRET=${ZEEBE_CLIENT_CLOUD_CLIENT_SECRET}
     networks:
       - camunda-network
 
 networks:
   camunda-network:
     driver: bridge
-

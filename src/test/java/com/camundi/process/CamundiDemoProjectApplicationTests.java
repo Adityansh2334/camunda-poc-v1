@@ -22,8 +22,6 @@ public class CamundiDemoProjectApplicationTests {
 	@Autowired
 	private ZeebeClient client;
 
-	@Autowired
-	private RecordStream recordStream;
 
 	@Test
 	void testProcessInstance() {
