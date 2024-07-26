@@ -21,13 +21,22 @@ The Camunda Animal Picture App is a simple application that allows users to fetc
 Before Use please note to set your own Camunda SaaS Credentials:
 
 ```
-zeebe.client.cloud.region=<OWN_VALUE>
-zeebe.client.cloud.clusterId=<OWN_VALUE>
-zeebe.client.cloud.clientId=<OWN_VALUE>
-zeebe.client.cloud.clientSecret=<OWN_VALUE>
+zeebe.client.cloud.region=<ZEEBE_CLIENT_CLOUD_REGION>
+zeebe.client.cloud.clusterId=<ZEEBE_CLIENT_CLOUD_CLUSTER_ID>
+zeebe.client.cloud.clientId=<ZEEBE_CLIENT_CLOUD_CLIENT_ID>
+zeebe.client.cloud.clientSecret=<ZEEBE_CLIENT_CLOUD_CLIENT_SECRET>
 
 ```
-	
+## Environment Variables
+Before running the application, set the following environment variables:
+
+	- ZEEBE_CLIENT_CLOUD_REGION
+	- ZEEBE_CLIENT_CLOUD_CLUSTER_ID
+	- ZEEBE_CLIENT_CLOUD_CLIENT_ID
+	- ZEEBE_CLIENT_CLOUD_CLIENT_SECRET
+
+You can set these variables in your shell or add them to a ``.env`` file in the root directory of your project. Docker Compose will automatically load variables from this file.
+
 
 ## Clone the Repository
 
@@ -40,9 +49,19 @@ cd camunda-animal-picture-app
 ./mvnw clean package
 ```
 ### Run the Application
+
+With ``.env`` file: 
+
 ```
 docker-compose up --build
+
 ```
+Without ``.env`` file:
+
+```
+ZEEBE_CLIENT_CLOUD_REGION=<your-cloud-region> ZEEBE_CLIENT_CLOUD_CLUSTER_ID=<your-cluster-id> ZEEBE_CLIENT_CLOUD_CLIENT_ID=<your-client-id> ZEEBE_CLIENT_CLOUD_CLIENT_SECRET=<your-client-secret> docker-compose up -d
+```
+
 ### Access the Application
 Open your web browser and go to http://localhost:8081/index.html.
 
