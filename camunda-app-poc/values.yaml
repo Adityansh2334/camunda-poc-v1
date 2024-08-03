@@ -1,8 +1,8 @@
 # values.yaml
 
 image:
-  repository: camunda-app  # Local Docker image name
-  tag: latest  # Tag for the local Docker image
+  repository: adidoc333/camunda-poc-app  # Local Docker image name
+  tag: v1  # Tag for the local Docker image
   pullPolicy: IfNotPresent  # Use the local image if it exists, otherwise try to pull from a repository
 
 serviceAccount:
