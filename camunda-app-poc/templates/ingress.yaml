@@ -1,0 +1,24 @@
+# templates/ingress.yaml
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "camunda-app-poc.fullname" . }}
+  labels:
+    {{ include "camunda-app-poc.labels" . | nindent 4 }}
+  annotations:
+    spec.ingressClassName: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  namespace: {{ .Release.Namespace }}
+spec:
+  rules:
+    - host: camunda.test
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ include "camunda-app-poc.fullname" . }}
+                port:
+                  number: {{ .Values.service.port }}

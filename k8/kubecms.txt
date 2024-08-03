@@ -1,0 +1,94 @@
+PS C:\Users\adity\Desktop\CAMUNDA\camunda-workspace\camundi-demo-project> kubectl describe ingress camunda-app-poc
+Name:             camunda-app-poc
+Labels:           app.kubernetes.io/instance=camunda-app
+                  app.kubernetes.io/managed-by=Helm
+                  app.kubernetes.io/name=camunda-app-poc
+                  helm.sh/chart=camunda-app-poc-0.1.0
+Namespace:        default
+Address:          192.168.49.2
+Ingress Class:    nginx
+Default backend:  <default>
+Rules:
+  Host           Path  Backends
+  ----           ----  --------
+  camunda.local
+                 /   camunda-app-poc:8081 (10.244.0.22:8081)
+Annotations:     meta.helm.sh/release-name: camunda-app
+                 meta.helm.sh/release-namespace: default
+Events:
+  Type    Reason  Age                   From                      Message
+  ----    ------  ----                  ----                      -------
+  Normal  Sync    4m9s (x2 over 4m28s)  nginx-ingress-controller  Scheduled for sync
+PS C:\Users\adity\Desktop\CAMUNDA\camunda-workspace\camundi-demo-project> kubectl get pods -n kube-system
+NAME                               READY   STATUS    RESTARTS        AGE
+coredns-7db6d8ff4d-tcg7h           1/1     Running   1 (23h ago)     6d1h
+etcd-minikube                      1/1     Running   1 (23h ago)     6d1h
+kube-apiserver-minikube            1/1     Running   1 (23h ago)     6d1h
+kube-controller-manager-minikube   1/1     Running   1 (23h ago)     6d1h
+kube-ingress-dns-minikube          1/1     Running   0               129m
+kube-proxy-6g7ln                   1/1     Running   1 (23h ago)     6d1h
+kube-scheduler-minikube            1/1     Running   1 (23h ago)     6d1h
+storage-provisioner                1/1     Running   6 (4h36m ago)   6d1h
+PS C:\Users\adity\Desktop\CAMUNDA\camunda-workspace\camundi-demo-project> helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+"ingress-nginx" has been added to your repositories
+PS C:\Users\adity\Desktop\CAMUNDA\camunda-workspace\camundi-demo-project> helm repo update
+Hang tight while we grab the latest from your chart repositories...
+...Successfully got an update from the "ingress-nginx" chart repository
+Update Complete. ⎈Happy Helming!⎈
+PS C:\Users\adity\Desktop\CAMUNDA\camunda-workspace\camundi-demo-project> helm install nginx-ingress ingress-nginx/ingress-nginx --namespace kube-system
+Error: INSTALLATION FAILED: Unable to continue with install: IngressClass "nginx" in namespace "" exists and cannot be imported into the current release: invalid ownership metadata; label validation error: missing key "app.kubernetes.io/managed-by": must be set to "Helm"; annotation validation error: missing key "meta.helm.sh/release-name": must be set to "nginx-ingress"; annotation validation error: missing key "meta.helm.sh/release-namespace": must be set to "kube-system"
+PS C:\Users\adity\Desktop\CAMUNDA\camunda-workspace\camundi-demo-project> kubectl get ingressclass
+NAME    CONTROLLER             PARAMETERS   AGE
+nginx   k8s.io/ingress-nginx   <none>       3h15m
+PS C:\Users\adity\Desktop\CAMUNDA\camunda-workspace\camundi-demo-project> kubectl delete ingressclass nginx
+ingressclass.networking.k8s.io "nginx" deleted
+PS C:\Users\adity\Desktop\CAMUNDA\camunda-workspace\camundi-demo-project> kubectl get ingressclass
+No resources found
+PS C:\Users\adity\Desktop\CAMUNDA\camunda-workspace\camundi-demo-project> helm install nginx-ingress ingress-nginx/ingress-nginx --namespace kube-system
+NAME: nginx-ingress
+LAST DEPLOYED: Sat Aug  3 00:58:46 2024
+NAMESPACE: kube-system
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+The ingress-nginx controller has been installed.
+It may take a few minutes for the load balancer IP to be available.
+You can watch the status by running 'kubectl get service --namespace kube-system nginx-ingress-ingress-nginx-controller --output wide --watch'
+
+An example Ingress that makes use of the controller:
+  apiVersion: networking.k8s.io/v1
+  kind: Ingress
+  metadata:
+    name: example
+    namespace: foo
+  spec:
+    ingressClassName: nginx
+    rules:
+      - host: www.example.com
+        http:
+          paths:
+            - pathType: Prefix
+              backend:
+                service:
+                  name: exampleService
+                  port:
+                    number: 80
+              path: /
+    # This section is only required if TLS is to be enabled for the Ingress
+    tls:
+      - hosts:
+        - www.example.com
+        secretName: example-tls
+
+If TLS is enabled for the Ingress, a Secret containing the certificate and key must also be provided:
+
+  apiVersion: v1
+  kind: Secret
+  metadata:
+    name: example-tls
+    namespace: foo
+  data:
+    tls.crt: <base64 encoded cert>
+    tls.key: <base64 encoded key>
+  type: kubernetes.io/tls

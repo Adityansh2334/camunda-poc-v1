@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "camunda-app-poc.fullname" . }}
+  labels:
+    {{- include "camunda-app-poc.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "camunda-app-poc.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "camunda-app-poc.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 8081
+          env:
+            - name: ZEEBE_CLIENT_CLOUD_REGION
+              value: {{ .Values.env.cloudRegion }}
+            - name: ZEEBE_CLIENT_CLOUD_CLUSTER_ID
+              value: {{ .Values.env.clusterId }}
+            - name: ZEEBE_CLIENT_CLOUD_CLIENT_ID
+              value: {{ .Values.env.clientId }}
+            - name: ZEEBE_CLIENT_CLOUD_CLIENT_SECRET
+              value: {{ .Values.env.clientSecret }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
