@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import com.camundi.process.config.Base64Utils;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import jakarta.annotation.PostConstruct;
 import reactor.core.publisher.Mono;
 import reactor.util.retry.Retry;
 
@@ -16,15 +18,25 @@ import reactor.util.retry.Retry;
 public class ImageSearchService {
 
 	@Value("${google.api.key}")
-	private String apiKey;
+	private String encodedApiKey;
 
 	@Value("${google.cse.id}")
-	private String cseId;
+	private String encodedCseId;
 	
 	@Value("${animal.image.size}")
 	private String imageSize;
+	
+	private String apiKey;
+	
+    private String cseId;
 
 	private final WebClient webClient;
+	
+	@PostConstruct
+    public void init() {
+        this.apiKey = Base64Utils.decode(encodedApiKey);
+        this.cseId = Base64Utils.decode(encodedCseId);
+    }
 
 	public ImageSearchService(WebClient.Builder webClientBuilder) {
 		this.webClient = webClientBuilder.baseUrl("https://www.googleapis.com/customsearch/v1").build();
