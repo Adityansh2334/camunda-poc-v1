@@ -1,0 +1,38 @@
+# values.yaml
+
+image:
+  repository: adidoc333/camunda-poc-app  # Local Docker image name
+  tag: v1  # Tag for the local Docker image
+  pullPolicy: IfNotPresent  # Use the local image if it exists, otherwise try to pull from a repository
+
+serviceAccount:
+  create: true  # Ensure this value is set
+  name: ""  # Optional, leave empty to use default
+
+service:
+  type: LoadBalancer  # Service type, could also be LoadBalancer, ClusterIP, etc.
+  port: 8081  # Port on which the service is exposed
+
+ingress:
+  enabled: true  # Enable ingress
+  className: nginx  # Ingress class name, typically nginx
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  tls: []  # Configure TLS if needed
+
+resources: {}
+nodeSelector: {}
+tolerations: []
+affinity: {}
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 100
+
+fullnameOverride: "camunda-app-poc"
+env:
+  cloudRegion: ""
+  clusterId: ""
+  clientId: ""
+  clientSecret: ""
