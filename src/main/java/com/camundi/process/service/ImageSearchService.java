@@ -17,10 +17,10 @@ import reactor.util.retry.Retry;
 @Service
 public class ImageSearchService {
 
-	@Value("${google.api.key}")
+	@Value("${custom.search.key}")
 	private String encodedApiKey;
 
-	@Value("${google.cse.id}")
+	@Value("${g.cse.cx}")
 	private String encodedCseId;
 	
 	@Value("${animal.image.size}")
