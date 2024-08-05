@@ -5,6 +5,9 @@ import com.camundi.process.model.Picture;
 import com.camundi.process.repository.PictureRepository;
 import io.camunda.zeebe.client.ZeebeClient;
 import io.camunda.zeebe.client.api.response.ProcessInstanceEvent;
+
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,9 +32,11 @@ public class AnimalPictureService {
     }
 
     public String getPicture(Long processInstanceKey) {
-        Picture picture = pictureRepository.findByProcessInstanceKey(processInstanceKey)
-                .orElseThrow(() -> new IllegalArgumentException("No picture found for process instance key: " + processInstanceKey));
-        return picture.getUrl();
+        Optional<Picture> picture = pictureRepository.findByProcessInstanceKey(processInstanceKey);
+        if(picture.isEmpty()) {
+        	return "";
+        }
+        return picture.get().getUrl();
     }
 }
 

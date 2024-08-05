@@ -27,14 +27,18 @@
     <div class="container">
         <h1>Camunda Animal Picture App</h1>
         <div>
-            <label for="animalType">Select an animal:</label>
+            <label for="animalType">Select an animal category:</label>
             <select id="animalType">
                 <option value="cat">Cat</option>
                 <option value="dog">Dog</option>
                 <option value="bear">Bear</option>
             </select>
-            <button onclick="fetchPicture()">Get Picture</button>
         </div>
+        <div>
+            <label for="animalName">Enter any specific search hint:</label>
+            <input type="text" id="animalName" placeholder="Enter animal name">
+        </div>
+        <button onclick="fetchPicture()">Get Picture</button>
         <div id="loading" class="hidden">Loading...</div>
         <div id="pictureContainer" class="hidden">
             <h2>Here is your picture:</h2>
@@ -49,21 +53,43 @@
             document.getElementById('error').classList.add('hidden');
 
             const animalType = document.getElementById('animalType').value;
+            const animalName = document.getElementById('animalName').value;
+            
+         	// Construct the search query based on the inputs
+            let query = 'HD image of '+ `${animalType}`;
+            if (animalName) {
+                query += ` ${animalName}`;
+            }
+            
             try {
-                const response = await fetch(`/api/pictures/start?animalType=${animalType}`, {
+                const response = await fetch(`/api/pictures/start?animalType=${query}`, {
                     method: 'POST'
                 });
                 const processInstanceKey = await response.text();
 
-                // Simulate delay for job worker to fetch the picture
-                setTimeout(async () => {
+                // Polling mechanism to check for the picture URL
+                const pollInterval = 2000; // Poll every 2 seconds
+                const maxRetries = 10; // Maximum number of retries
+
+                for (let i = 0; i < maxRetries; i++) {
                     const pictureResponse = await fetch(`/api/pictures/${processInstanceKey}`);
                     const pictureUrl = await pictureResponse.text();
 
-                    document.getElementById('picture').src = pictureUrl;
-                    document.getElementById('loading').classList.add('hidden');
-                    document.getElementById('pictureContainer').classList.remove('hidden');
-                }, 3000); // Adjust the delay as needed
+                    if (pictureUrl) {
+                        document.getElementById('picture').src = pictureUrl;
+                        document.getElementById('loading').classList.add('hidden');
+                        document.getElementById('pictureContainer').classList.remove('hidden');
+                        return;
+                    }
+
+                    // Wait for the next poll
+                    await new Promise(resolve => setTimeout(resolve, pollInterval));
+                }
+
+                // If the URL is still not available after maximum retries, show an error
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('error').classList.remove('hidden');
+
             } catch (error) {
                 document.getElementById('loading').classList.add('hidden');
                 document.getElementById('error').classList.remove('hidden');
