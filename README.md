@@ -18,7 +18,7 @@ The Camunda Animal Picture App is a simple application that allows users to fetc
 - Maven
 
 ## Setup
-Before Use please note to set your own Camunda SaaS Credentials:
+Before Use please note to set your own Camunda SaaS Credentials & Google Custom Search Engine Creds:
 
 ```
 zeebe.client.cloud.region=<ZEEBE_CLIENT_CLOUD_REGION>
@@ -26,7 +26,25 @@ zeebe.client.cloud.clusterId=<ZEEBE_CLIENT_CLOUD_CLUSTER_ID>
 zeebe.client.cloud.clientId=<ZEEBE_CLIENT_CLOUD_CLIENT_ID>
 zeebe.client.cloud.clientSecret=<ZEEBE_CLIENT_CLOUD_CLIENT_SECRET>
 
+
+google.custom.search.apiKey=<GOOGLE_SEARCH_ENGINE_API_KEY>
+google.cse.id=<GOOGLE_SEARCH_ENGINE_ID>
+
 ```
+## Steps for get Google Custom Search Engine Credentials
+	Obtain an API Key:
+
+- Go to the Google Cloud Console.
+- Create a new project or select an existing one.
+- Enable the Custom Search API.
+- Create credentials to obtain an API key.
+- Set Up a Custom Search Engine:
+
+	Go to the Custom Search Engine page.
+- Create a new search engine.
+- In the Sites to Search section, you can add any site or * to search the entire web.
+- Note the Search Engine ID.
+
 ## Environment Variables
 Before running the application, set the following environment variables:
 
@@ -34,6 +52,9 @@ Before running the application, set the following environment variables:
 	- ZEEBE_CLIENT_CLOUD_CLUSTER_ID
 	- ZEEBE_CLIENT_CLOUD_CLIENT_ID
 	- ZEEBE_CLIENT_CLOUD_CLIENT_SECRET
+	
+	- GOOGLE_SEARCH_ENGINE_API_KEY
+	- GOOGLE_SEARCH_ENGINE_ID
 
 You can set these variables in your shell or add them to a ``.env`` file in the root directory of your project. Docker Compose will automatically load variables from this file.
 
