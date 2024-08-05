@@ -78,7 +78,7 @@ docker-compose up --build
 Without ``.env`` file:
 
 ```
-ZEEBE_CLIENT_CLOUD_REGION=<your-cloud-region> ZEEBE_CLIENT_CLOUD_CLUSTER_ID=<your-cluster-id> ZEEBE_CLIENT_CLOUD_CLIENT_ID=<your-client-id> ZEEBE_CLIENT_CLOUD_CLIENT_SECRET=<your-client-secret> docker-compose up -d
+ZEEBE_CLIENT_CLOUD_REGION=<your-cloud-region> ZEEBE_CLIENT_CLOUD_CLUSTER_ID=<your-cluster-id> ZEEBE_CLIENT_CLOUD_CLIENT_ID=<your-client-id> ZEEBE_CLIENT_CLOUD_CLIENT_SECRET=<your-client-secret> GOOGLE_SEARCH_ENGINE_API_KEY=<your-google-search-api> GOOGLE_SEARCH_ENGINE_ID=<your-search-engine-id> docker-compose up -d
 ```
 
 ### Access the Application
