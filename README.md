@@ -31,16 +31,14 @@ google.custom.search.apiKey=<GOOGLE_SEARCH_ENGINE_API_KEY>
 google.cse.id=<GOOGLE_SEARCH_ENGINE_ID>
 
 ```
-## Steps for get Google Custom Search Engine Credentials
-	Obtain an API Key:
-
+## Steps for getting Google Custom Search Engine Credentials
+### Obtain an API Key:
 - Go to the Google Cloud Console.
 - Create a new project or select an existing one.
 - Enable the Custom Search API.
-- Create credentials to obtain an API key.
-- Set Up a Custom Search Engine:
-
-	Go to the Custom Search Engine page.
+- Create credentials to obtain an API key.  
+### Set Up a Custom Search Engine:
+- Go to the Custom Search Engine page.
 - Create a new search engine.
 - In the Sites to Search section, you can add any site or * to search the entire web.
 - Note the Search Engine ID.
